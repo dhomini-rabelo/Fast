@@ -12,7 +12,6 @@
 <h3>Start virtual environment and Django project</h3>
 
 ```
-# terminal
 python -m venv venv
 venv/Scripts/Activate.ps1
 pip install django
@@ -31,7 +30,6 @@ django-admin startproject MY_PROJECT_NAME .
 <h3>Download requirements.txt and update requirements.txt</h3>
 
 ```
-# terminal
 pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
@@ -58,7 +56,6 @@ INSTALLED_APPS = [
 <h3>Create project structure</h3>
 
 ```
-# terminal
 python manage.py --del fast-init
 ```
 
@@ -70,7 +67,6 @@ python manage.py --del fast-init
 <h3>Create custom user</h3>
 
 ```
-# terminal
 python manage.py create-accounts-app
 ```
 
@@ -84,7 +80,6 @@ python manage.py create-accounts-app
 <h3>Do the migrations</h3>
 
 ```
-# terminal
 python manage.py makemigrations
 python manage.py migrate
 ```
@@ -117,7 +112,7 @@ python manage.py migrate
 
 
 <li>
-<h3>register admin ['model_address']</h3>
+<h3>register admin [model_address]</h3>
 <p>model_address -> app_name.model_name</p>
 <p>Command for create base for register admin model</p>
 </li><br>
