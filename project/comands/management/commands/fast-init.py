@@ -23,6 +23,7 @@ class Command(BasicCommand):
             '   TEMPLATES["DIRS"], LANGUAGE_CODE, TIME_ZONE, STATICFILES_DIRS, STATIC_ROOT, MEDIA_ROOT',
             '   MEDIA_URL, ACCOUNT_SESSION_REMEMBER',
             'adapting archive urls.py',
+            'adding env file',
         ]
         
         self.create_project_folders(settings.BASE_DIR, options)
@@ -35,6 +36,7 @@ class Command(BasicCommand):
         project.insert_important_comments()
         project.adapt_settings()
         project.adapt_urls_py()
+        project.add_env_file()
 
         display_tree(str(settings.BASE_DIR))
         self.show_actions(actions)
