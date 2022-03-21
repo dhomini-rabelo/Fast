@@ -13,17 +13,32 @@
 
 ```
 python -m venv venv
-venv/Scripts/Activate.ps1
+```
+
+```
+venv/Scripts/Activate.ps1 # if PowerShell
+```
+
+```
 pip install django
+```
+
+```
 mkdir project
+```
+
+```
 cd project
+```
+
+```
 django-admin startproject MY_PROJECT_NAME .
 ```
 
 </li><br>
 
 <li>
-<h3>Copy folders and files of project folder from this project and paste in your project folder, download <a href="folders.zip" type="application/zip" download="folders.zip">here</a></h3>
+<h3>Copy folders and files of project folder from this project and paste in your project folder, download <a href="./project.rar" type="application/rar" download="project.rar">here</a></h3>
 </li><br>
 
 <li>
@@ -31,6 +46,9 @@ django-admin startproject MY_PROJECT_NAME .
 
 ```
 pip install -r requirements.txt
+```
+
+```
 pip freeze > requirements.txt
 ```
 
@@ -42,7 +60,7 @@ pip freeze > requirements.txt
 ```
 # settings.py
 
-PROJECT_NAME = MY_PROJECT_NAME
+PROJECT_NAME = 'MY_PROJECT_NAME'
 
 INSTALLED_APPS = [
     ...,
@@ -56,7 +74,7 @@ INSTALLED_APPS = [
 <h3>Create project structure</h3>
 
 ```
-python manage.py --del fast-init
+python manage.py fast-init --del
 ```
 
 </li><br>
@@ -81,6 +99,9 @@ python manage.py create-accounts-app
 
 ```
 python manage.py makemigrations
+```
+
+```
 python manage.py migrate
 ```
 
