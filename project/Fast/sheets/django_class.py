@@ -25,8 +25,12 @@ class Base:
         return f'{archive_name}.html'
     
     def read(self, archive: str):
-        path = f'{self.adapt_pyname(archive)}'
-        assert_file_existence(path)
+        path = archive
+        try:
+            assert_file_existence(path)
+        except FileNotFoundError:
+            path = self.adapt_pyname(archive)
+            assert_file_existence(path)
         with io.open(path, mode='r', encoding='utf-8') as code_file:
             code = code_file.readlines()
             return code
