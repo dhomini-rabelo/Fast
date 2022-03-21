@@ -6,7 +6,7 @@ from django.db.models import Model
 
 
 
-def get_post_form_errors(form: list) -> dict[str, str]:
+def get_post_form_errors(form: list, optional_fields: list[tuple]=[], choices: list[tuple]=[]) -> dict[str, str]:
     """
     Form list fields
     [
@@ -41,6 +41,23 @@ def get_post_form_errors(form: list) -> dict[str, str]:
     
     
     form_errors = adapt_form_errors(form_errors)
+
+    for fields in choices:
+        comparison = {}
+        for field in fields:
+            check = form_errors.get(field)
+            comparison[field] = check if check is not None else 'none'
+        errors_values = list(comparison.values())
+        if (errors_values.count('Este campo é obrigatório') == (len(errors_values)-1)):
+            for field in comparison.keys():
+                if comparison[field] == 'Este campo é obrigatório':
+                    optional_fields.append(field)
+
+
+    for optional_field in optional_fields:
+        optional_error = form_errors.get(optional_field)
+        if (optional_error is not None) and (form_errors[optional_field] == 'Este campo é obrigatório'):
+            del form_errors[optional_field]
         
     
     return form_errors if form_errors != {} else None
