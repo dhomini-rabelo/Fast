@@ -17,8 +17,8 @@ class DjangoProject(Base):
     def adapt_urls_py(self):
         editor = Editor(self.path, 'urls.py')
         imports = ['from django.conf import settings', 'from django.conf.urls.static import static', 'from django.urls import path, include']
-        editor.insert_code('from django.urls', imports)  # new_reading
-        url_conf = ['urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)', 'urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)']
+        editor.replace_line('from django.urls', imports)  # new_reading
+        url_conf = ['\n\nurlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)', 'urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)']
         editor.insert_code(']', url_conf)
 
     
@@ -61,14 +61,13 @@ class DjangoProject(Base):
         return inserts
     
     def adapt_settings(self):
-        editor = Editor(self.path, 'settings.py')
         replaces = self._settings_replaces()
         inserts = self._settings_inserts()
         
         for current, new in replaces:
-            editor.replace_line(current, new)
+            self.settings.replace_line(current, new)
 
         for current, new in inserts:
-            editor.insert_code(current, new)
+            self.settings.insert_code(current, new)
 
         self.settings.add_in_start(['from decouple import config'])

@@ -20,7 +20,7 @@ class Editor(Base):
             
     def _get_line_position(self, code_line: str) -> int:
         for position, line in enumerate(self.reading):
-            if line.startswith(code_line):
+            if code_line in line:
                 return position + 1
         raise NotFoundError('Line not found')
         

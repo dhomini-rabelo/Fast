@@ -34,9 +34,9 @@ class Command(BasicCommand):
 
         project = DjangoProject(str(settings.BASE_DIR), settings.PROJECT_NAME)
         project.insert_important_comments()
-        project.adapt_settings()
         project.adapt_urls_py()
         project.add_env_file()
+        project.adapt_settings()
 
         display_tree(str(settings.BASE_DIR))
         self.show_actions(actions)

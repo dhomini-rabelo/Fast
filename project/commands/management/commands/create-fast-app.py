@@ -39,7 +39,6 @@ class Command(BasicCommand):
             'actions',
             'actions/functions',
             'actions/objects',
-            'actions/tasks',
         ]
         for folder in folders:
             new_path = Path(app_path, folder)
