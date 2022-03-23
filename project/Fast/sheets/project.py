@@ -53,6 +53,7 @@ class DjangoProject(Base):
             "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'frontend/static')]", 
             "STATIC_ROOT = Path('static')","MEDIA_ROOT = Path(BASE_DIR,'frontend/media')", 
             "MEDIA_URL = '/media/'", "ACCOUNT_SESSION_REMEMBER = True",
+            "STATIC_PAGE_CACHE_TIMEOUT = 60*60*2"
         ]
         inserts = [
             ("# My settings", settings),

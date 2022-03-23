@@ -258,11 +258,11 @@ python manage.py runserver
 <ul>
 
 <li>
-Create project name with uppercase, app name with lowercase and others with Casefold
+Create project name with UPPERCASE, app name with lowercase and others with Casefold
 </li><br>
 
 <li>
-Use 2 code softwares on backend and frontend folders, or 3 adding source folder.
+Use 2 code softwares on backend and frontend folders, or 3 with source folder.
 </li><br>
 
 </ul>
