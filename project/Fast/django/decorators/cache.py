@@ -1,5 +1,7 @@
 from django.core.cache import cache
-from django.http import HTTPResponse
+from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
+from django.conf import settings
 
 
 
@@ -11,8 +13,63 @@ def global_cache_page(cache_timeout: int):
                 result = view_function(*args, **kwargs)
                 cache.set(request.get_full_path(), result.content, cache_timeout)
                 return result
-            return HTTPResponse(result.content)
+            return HttpResponse(cache.get(request.get_full_path()))
         return wrapper_function
     return decorator_function
 
 
+def double_cache_page(cache_timeout: int):
+    def decorator_function(view_function):
+        @cache_page(cache_timeout)
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            if cache.get(request.get_full_path()) is None:
+                result = view_function(*args, **kwargs)
+                cache.set(request.get_full_path(), result.content, cache_timeout)
+                return result
+            return HttpResponse(cache.get(request.get_full_path()))
+        return wrapper_function
+    return decorator_function
+
+
+def super_cache_page(global_cache_timeout: int, browser_cache_timeout: int):
+    def decorator_function(view_function):
+        @cache_page(browser_cache_timeout)
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            if cache.get(request.get_full_path()) is None:
+                result = view_function(*args, **kwargs)
+                cache.set(request.get_full_path(), result.content, global_cache_timeout)
+                return result
+            return HttpResponse(cache.get(request.get_full_path()))
+        return wrapper_function
+    return decorator_function
+
+
+def static_page(cache_timeout: int = 60*60*2):
+    def decorator_function(view_function):
+        @cache_page(cache_timeout)
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            if cache.get(request.get_full_path()) is None:
+                result = view_function(*args, **kwargs)
+                cache.set(request.get_full_path(), result.content, None)
+                return result
+            return HttpResponse(cache.get(request.get_full_path()))
+        return wrapper_function
+    return decorator_function
+
+
+def control_cache_page(cache_timeout: int = 60*60*2):
+    def decorator_function(view_function):
+        @cache_page(cache_timeout)
+        def wrapper_function(*args, **kwargs):
+            request = args[0]
+            if cache.get(request.get_full_path()) is None or request.headers.get('raw') == settings.SECRET_KEY:
+                result = view_function(*args, **kwargs)
+                cache.set(request.get_full_path(), result.content, None)
+                return result
+            return HttpResponse(cache.get(request.get_full_path()))
+        return wrapper_function
+    return decorator_function
+    
