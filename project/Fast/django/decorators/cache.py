@@ -62,7 +62,7 @@ def renew_or_cache_page(cache_timeout):
     def decorator_function(view_function):
         def wrapper_function(*args, **kwargs):
             request = args[0]
-            if request.headers.get('renew') == settings.SECRET_KEY:
+            if request.headers.get('renew'):
                 return view_function(*args, **kwargs)
             return cache_page(cache_timeout)(view_function)(*args, **kwargs)
         return wrapper_function
