@@ -34,7 +34,7 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
         self.init.insert_code(0, settings) # new_reading
 
     def start_files(self):
-        self.views.insert_code(0, ['from django.shortcuts import render, redirect\n\n', "BP = 'pages/' # base path"])
+        self.views.insert_code(0, ['from django.shortcuts import render, redirect\n\n', "BP = 'pages' # base path"])
         self.admin.insert_code(0, ['from django.contrib import admin', "\nadmin.site.empty_value_display = 'NULL'\n\n"])
             
     def create_py_folder(self, folder_path):

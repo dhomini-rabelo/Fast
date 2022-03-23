@@ -1,5 +1,11 @@
 <h1>Fast Project</h1>
 
+<p align="center">
+<a href="#view">Create a view</a> • 
+<a href="#commands">Commands</a> • 
+<a href="#tips">Tips</a>
+</p>
+
 <h2>About</h2>
 
 <p>Python package for better development process with Django using command line. The commands folder is a django app with commands of project, Fast folder have utils functions for fast development with Django</p>
@@ -110,8 +116,102 @@ python manage.py migrate
 
 </ol>
 
+<h2 id="view">Create a view</h2>
 
-<h2>Commands</h2>
+<ol>
+
+
+<li>
+<h3>Create a app</h3>
+
+```
+python manage.py create-fast-app core
+```
+
+</li><br>
+
+
+<li>
+<h3>Create a view in backend/core/views.py</h3>
+
+```
+from django.shortcuts import render, redirect
+
+
+BP = 'pages' # base path
+
+
+def index(request):
+    return render(request, f'{BP}/index.html')
+    
+```
+
+</li><br>
+
+<li>
+<h3>Create a index.html in frontend/templates/pages</h3>
+
+```
+<link rel="stylesheet" href="/static/styles/pages/index.html">
+<h1>Hello, World !!!!!</h1>
+```
+
+</li><br>
+
+<li>
+<h3>Create a index.css in frontend/static/styles/pages</h3>
+
+```
+body {
+    background-color: orange;
+}
+```
+
+</li><br>
+
+<li>
+<h3>Register route</h3>
+
+```
+# project/PROJECT_NAME/urls.py
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('backend.core.urls'))
+]
+
+# project/backend/core/urls.py
+
+urlpatterns = [
+    path('', index, name='index'),
+]
+```
+
+</li><br>
+
+
+<li>
+<h3>Run project</h3>
+
+```
+python manage.py runserver
+```
+
+</li><br>
+
+<li>
+<h3>View result in <a href="http://localhost:8000">http://localhost:8000</a></h3>
+
+<img src="./readme/result.PNG" alt="project-result" style="max-width: 100%; display: block; margin: 10px auto 0 0;">
+
+</li><br>
+
+
+</ol>
+
+
+
+<h2  id="commands">Commands</h2>
 
 <ul>
 
@@ -139,16 +239,30 @@ python manage.py migrate
 </li><br>
 
 <li>
-<h3>minificate-css</h3>
+<h3>minificate-css [path]</h3>
 </li><br>
 
 <li>
-<h3>minificate-html</h3>
+<h3>minificate-html [path]</h3>
 </li><br>
 
 <li>
-<h3>minificate-js</h3>
+<h3>minificate-js [path]</h3>
 </li><br>
 
+
+</ul>
+
+<h2  id="tips">Tips</h2>
+
+<ul>
+
+<li>
+Create project name with uppercase, app name with lowercase and others with Casefold
+</li><br>
+
+<li>
+Use 2 code softwares on backend and frontend folders, or 3 adding source folder.
+</li><br>
 
 </ul>
