@@ -10,6 +10,6 @@ def apply_filters(Model, filters: dict, values: dict) -> dict:
             }
 
     return {
-        'model': Model.objects.filter(**filter_query),
+        'model': Model.objects.filter(**filter_query).order_by('id'),
     } 
     
