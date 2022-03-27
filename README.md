@@ -116,6 +116,59 @@ python manage.py migrate
 
 </ol>
 
+<h2>Fast Start</h2>
+
+<ol>
+
+
+<li>
+<h3>Initial Commands</h3>
+
+
+```
+python -m venv venv
+venv/Scripts/Activate.ps1
+pip install django
+mkdir project
+cd project
+django-admin startproject MY_PROJECT_NAME .
+```
+
+</li><br>
+
+
+<li>
+<h3>Add project name and commands app in settings.py</h3>
+
+
+```
+# settings.py
+
+PROJECT_NAME = 'MY_PROJECT_NAME'
+
+INSTALLED_APPS = [
+    ...,
+    'commands.CommandsConfig',
+]
+```
+
+</li><br>
+
+
+<li>
+<h3>Create project structure, create accounts app and run migrations</h3>
+
+```
+python manage.py fast-init --del
+python manage.py create-accounts-app
+python manage.py makemigrations
+python manage.py migrate
+```
+
+</li><br>
+
+</ol>
+
 <h2 id="view">Create a view</h2>
 
 <ol>
