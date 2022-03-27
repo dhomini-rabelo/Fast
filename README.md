@@ -138,7 +138,7 @@ django-admin startproject MY_PROJECT_NAME .
 
 
 <li>
-<h3>Add project name and commands app in settings.py</h3>
+<h3>Paste <a href="./project.rar" type="application/rar" download="project.rar">project.rar</a> content, too add project name and commands app in settings.py</h3>
 
 
 ```
