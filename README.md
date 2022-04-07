@@ -156,9 +156,11 @@ INSTALLED_APPS = [
 
 
 <li>
-<h3>Create project structure, create accounts app and run migrations</h3>
+<h3>Manage dependencies, create project structure, create accounts app and run migrations</h3>
 
 ```
+pip install -r requirements.txt
+pip freeze > requirements.txt
 python manage.py fast-init --del
 python manage.py create-accounts-app
 python manage.py makemigrations
