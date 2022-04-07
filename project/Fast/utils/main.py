@@ -1,13 +1,9 @@
 # this module
 from .functions_dict import filters_functions
-from .exceptions import DataCacheNotCreated
 # others
 from datetime import datetime
 from collections.abc import Mapping
 from typing import Any
-# django
-from django.core.cache import cache
-
 
 def simplification(obj_name: str):
     simplification = {'decimal.Decimal': 'decimal', 'datetime.date': 'date'}
@@ -27,7 +23,7 @@ def get_type(obj: Any):
 
 
 def filters(field: Mapping[str, list], new_type: str = 'strip'):
-    alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br']
+    alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br', 'none']
     if isinstance(field, str):
         return filters_functions[new_type](field)
     elif isinstance(field, list):
@@ -36,10 +32,10 @@ def filters(field: Mapping[str, list], new_type: str = 'strip'):
         return field
 
 
-def gets(post_obj: dict, *args):
+def gets(post_obj: dict, *args, obj_filter='strip'):
     fields = list()
     for field in args:
-        fields.append(filters(post_obj.get(field)))
+        fields.append(filters(post_obj.get(field), obj_filter))
     return fields
     
 
@@ -63,11 +59,3 @@ def jsObj(keys: set[str], original_data: dict[str, str]):
     for key in keys:
         new_data[key] = original_data[key]
     return new_data
-
-
-
-def get_cache_or_error(key: str):
-    searched_cache = cache.get(key)
-    if searched_cache is None:
-        raise DataCacheNotCreated('Cache not created')
-    return searched_cache

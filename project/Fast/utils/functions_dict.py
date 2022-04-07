@@ -26,4 +26,5 @@ filters_functions = {
     'strip': lambda text: text.strip(), 'name': lambda text: get_name(text),
     'only_numbers': lambda text: get_only_numbers(text),
     'money_br': lambda text: get_decimal_from_money_br(text),
+    'none': lambda obj: obj,
 }
