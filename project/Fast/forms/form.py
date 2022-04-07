@@ -35,6 +35,11 @@ class BlockForm:
                         field['html'] = field['html'].replace('<input', f'<input value="{values[field["name"]]}"')
                     case 'img':
                         continue
+                    case 'select':
+                        field['html'] = field['html'].replace(f'<option value="{values[field["name"]]}"', f'<option value="{values[field["name"]]}" selected')
+                    case 'checkbox':
+                        for value in values[field["name"]]:
+                            field['html'] = field['html'].replace(f'value="{value}">', f'value="{value}" checked>')
         self.form_fields = copy_form_fields
         self._update_form()
         
@@ -48,6 +53,13 @@ class BlockForm:
                         field['html'] = field['html'].replace(f'value="{field["history"][0]}"', f'value="{values[field["name"]]}"')
                     case 'img':
                         continue
+                    case 'select':
+                        field['html'] = field['html'].replace(f'<option value="{field["history"][0]}" selected', f'<option value="{field["history"][0]}"')
+                        field['html'] = field['html'].replace(f'<option value="{values[field["name"]]}"', f'<option value="{values[field["name"]]}" selected')
+                    case 'checkbox':
+                        field['html'] = field['html'].replace('checked', '')
+                        for value in values[field["name"]]:
+                            field['html'] = field['html'].replace(f'value="{value}">', f'value="{value}" checked>')
                 field['history'].append(values[field["name"]])
             
         self.form_fields = copy_form_fields
