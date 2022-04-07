@@ -1,0 +1,16 @@
+-> Alterações em Fast 
+ + Form
+   -  melhorar abstração dos nomes
+   -  Add use history em Form
+   -  Form sem history é armazenado em cache global com timeout None
+   -  Abstrair delete fast base com session para forms dinâmicos
+
+ + Add Group cache
+
+ + Commands
+   -  fast-init com backbutton --docker opcional --move para mover básicos css messages ou form simples
+   -  Add comando compact, 
+  
+
+
+Atualizar project.rar
