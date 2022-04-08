@@ -117,8 +117,11 @@ class Form:
     def form_for_save(self):
         return self.form_fields[:]
     
-    def fast_load_form(self, form_fields: list[dict], processed_form: str):
+    def add_fields_and_fast_load_form(self, form_fields: list[dict], processed_form: str):
         self.form_fields = [item.copy() for item in form_fields]
+        self.form = processed_form[:]
+
+    def fast_load_form(self, processed_form: str):
         self.form = processed_form[:]
 
     def load_form(self, form_fields: list[dict]):

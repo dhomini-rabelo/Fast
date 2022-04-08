@@ -4,6 +4,7 @@
    -  Add use history em Form
    -  Form sem history é armazenado em cache global com timeout None
    -  Abstrair delete fast base com session para forms dinâmicos
+   - BlockForm form is child of Form
 
  + Add Group cache
 
