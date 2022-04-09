@@ -46,6 +46,7 @@ def if_none(obj: Any, new_value: Any):
 
 
 
+
 def get_age(date: str):
     input_date = datetime.strptime(date, '%d/%m/%Y') 
     today_date = datetime.now()

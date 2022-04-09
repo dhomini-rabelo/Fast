@@ -1,19 +1,15 @@
 from django.core.cache import cache
 from ...forms.form import Form
-from ...utils.main import gets
+from ...utils.main import gets, if_none
     
 
 base_changes = [('[name]', 'name'), ('[label]', 'label'), ('[placeholder]', 'placeholder')]
-def construct_form(form_name: str, fields: list[dict], html_structure: str, changes=base_changes) -> Form:
-    page_form = Form()
+def construct_form(form_settings: dict, fields: list[dict], html_structure: str, changes=base_changes) -> Form:
+    page_form = form_settings['class']()
 
-    cache_form, fast_cache_form = gets(cache, form_name, f'fast_{form_name}', obj_filter='none')
-    if cache_form is not None and fast_cache_form is not None:
-        page_form.fast_load_form(cache_form, fast_cache_form)
-    else:
-        page_form.add_fields(fields, html_structure, changes)
-        cache.set(form_name, page_form.form_for_save(), None)
-        cache.set(f'fast_{form_name}', page_form.fast_load_form(), None)
+    page_form.add_fields(fields, html_structure, changes)
+    cache.set(form_settings["name"], page_form.form_for_save(), None)
+    cache.set(f'fast_{form_settings["name"]}', page_form.fast_load_form(), None)
         
     return page_form
 
@@ -70,3 +66,33 @@ def save_form_values_and_form_errors(request, form_nickname: str, fields_values:
         request.session[form_errors] = page_form.form_for_save()
     else:
         request.session[form_errors] = None
+
+
+def get_form_type(is_dinamic: bool, many: bool) -> str:
+    match [is_dinamic, many]:
+        case [True, True]:
+            return 'complex'
+        case [False, False]:
+            return 'basic'
+        case [True, False]:
+            return 'dinamic'
+        case _:
+            raise ValueError(f'Form type nt found')
+
+
+def create_form_settings(form_name: str, is_dinamic: bool, many: bool, form_class) -> dict:
+    form_settings = {
+        'name': f'{form_name}_form',
+        'fast_name': f'fast_{form_name}',
+        'used_name': f'used_{form_name}',
+        'type': get_form_type(is_dinamic, many),
+        'class': form_class
+    }
+
+    return form_settings
+
+
+
+def get_form_settings(request, form_name: str, is_dinamic: bool, many: bool, form_class) -> dict:
+    settings = request.session.get(f'{form_name}_settings', create_form_settings(form_name, is_dinamic, many, form_class))
+    return settings
