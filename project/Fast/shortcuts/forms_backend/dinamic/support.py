@@ -28,9 +28,9 @@ def construct_form(form_settings: dict, fields: list[dict], html_structure: str,
 
 
 
-def save_base_form(form_settings, form):
-    cache.set(form_settings["name"], form.form_for_save(), None)
-    cache.set(form_settings["fast_name"], form.get_form(), None)
+def save_base_form(request, form_settings, form):
+    request.session[form_settings["name"]] = form.form_for_save()
+    request.session[form_settings["fast_name"]] = form.get_form()
 
 
 def save_used_form(request, form_settings, form):
@@ -42,10 +42,10 @@ def save_form_values_and_form_errors(request, form_settings: str, fields_values:
     if list(conditions.values()) == [False, False]: return
 
     page_form = form_settings['class']()
-    form = cache.get(form_settings["name"])
+    form = request.session[form_settings['name']]
 
     if conditions['fields']:
-        page_form.load_form_with_values(form, fields_values)
+        page_form.change_form_with_values(request.session[form_errors], request.session[form_fields])
     else:
         page_form.load_form(form)
 
@@ -61,8 +61,11 @@ def load_form_and_delete_used_form(request, form_settings: dict):
     used_form = request.session.get(form_settings["used_name"])
     
     if used_form is None:
-        return cache.get(form_settings["fast_name"])
+        return request.session[form_settings["fast_name"]]
     else:
-        form_html = used_form[:]
         request.session[form_settings["used_name"]] = None
-        return form_html
+        return used_form[:]
+
+# changes  
+# cache <-> request.session
+# load_form <-> change_form
