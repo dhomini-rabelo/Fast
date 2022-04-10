@@ -66,6 +66,5 @@ def load_form_and_delete_used_form(request, form_settings: dict):
         request.session[form_settings["used_name"]] = None
         return used_form[:]
 
-# changes of basic
-# cache <-> request.session
-# load_form <-> change_form
+# changes of dinamic
+# id in name
