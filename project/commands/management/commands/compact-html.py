@@ -36,8 +36,16 @@ class Command(BasicCommand):
         reading = self.get_includes_of_html(reading)
         
         compact_path = f'{self.base_path}/_compacts/{argument_path}.html'
+
         with io.open(compact_path, 'w') as file:
             file.writelines(reading)
+
+        url = 'https://www.toptal.com/developers/html-minifier/raw'
+        data = {'input': open(compact_path, 'rb').read()}
+        response = requests.post(url, data=data)
+
+        with io.open(compact_path, 'w') as file:
+            file.write(response.text)
 
         self.show_actions([
             f'create compact page in {compact_path}'
