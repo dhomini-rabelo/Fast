@@ -33,6 +33,14 @@ class Form:
                 field['html'] = field['html'].replace('<input', f'<input value="{values[field["name"]]}"')
         self.form_fields = copy_form_fields
         self._update_form()
+
+    def change_form_with_values(self, form_fields: list[dict], values: dict):
+        copy_form_fields = [item.copy() for item in form_fields]
+        for field in copy_form_fields:
+            if field['name'] in values.keys():
+                field['html'] = field['html'].replace(f'value="{field["history"][0]}"', f'value="{values[field["name"]]}"')
+        self.form_fields = copy_form_fields
+        self._update_form()
         
     def _update_form(self):
         self.form = ''.join(map(lambda field: field["html"], self.form_fields))
