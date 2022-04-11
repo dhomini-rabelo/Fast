@@ -3,6 +3,7 @@ from .editor import Editor
 from pathlib import Path
 from time import sleep
 from .support import *
+import shutil as pc
 import io
 
 
@@ -21,6 +22,12 @@ class DjangoProject(Base):
         url_conf = ['\n\nurlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)', 'urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)']
         editor.insert_code(']', url_conf)
 
+    
+    def move_to_origin(self, files_path):
+        origin_path = Path(self.path).parent
+        for file in files_path.iterdir():
+            file_path = Path(file)
+            pc.move(file_path, origin_path)
     
     def insert_important_comments(self):
         inserts = [("DEFAULT_AUTO_FIELD", "\n\n# My settings"),
