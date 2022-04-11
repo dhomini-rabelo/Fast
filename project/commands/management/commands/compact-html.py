@@ -44,7 +44,7 @@ class Command(BasicCommand):
         ])
 
 
-    def get_reading_list(self, path):
+    def get_reading_list(self, path: str):
         with io.open(path, 'r') as file:
             reading_list = file.readlines()
         return reading_list
@@ -70,8 +70,34 @@ class Command(BasicCommand):
             extends_html_path = f'{self.base_path}/{html_base_archive_path}'
             return extends_html_path
 
-    
+    def replace_django_blocks_for_code(self, current_reading_list: list[str], son_reading_list: list[str]):
+        new_reading = []
+        for line in current_reading_list:
+            new_reading.append(line)
+            if line.strip().startswith(r'{% block'):
+                block_content = self.get_block_content(line.strip(), son_reading_list)
+                new_reading += block_content
+        return new_reading
 
-            
+    def get_block_content(self, block_line: str, son_reading_list: list[str]):
+        block_content = []
+        get_line = False
+        for line in son_reading_list:
+            if get_line is True:
+                block_content.append(line)
+            elif line.strip() == block_line:
+                get_line = True
+            elif line.strip() in r'{% endlock %}':
+                break
+        return block_content
 
-
+    def get_includes_of_html(self, reading):
+        new_reading = []
+        for line in reading:
+            new_reading.append(line)
+            if line.startswith(r'{% include'):
+                html_archive_path = line.split("'")[1]
+                path = f'{self.base_path}/{html_archive_path}'
+                html_archive_content = self.get_reading_list(path)
+                new_reading += html_archive_content
+        return new_reading
