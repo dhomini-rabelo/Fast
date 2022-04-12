@@ -22,7 +22,7 @@ class Command(BasicCommand):
         self.create_page_folders(path, [folder for i, folder in enumerate(folders) if i != len(folders) - 1])
 
         url = 'https://www.toptal.com/developers/html-minifier/raw'
-        data = {'input': open(archive_path, 'rb').read()}
+        data = {'input': io.open(archive_path, 'r').read()}
         response = requests.post(url, data=data)
 
         self.create_minificated_archive(archive, response.text)
