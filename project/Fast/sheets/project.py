@@ -24,7 +24,7 @@ class DjangoProject(Base):
 
     
     def move_to_origin(self, files_path):
-        origin_path = Path(self.path).parent
+        origin_path = Path(self.path).parent.parent
         for file in files_path.iterdir():
             file_path = Path(file)
             pc.move(file_path, origin_path)

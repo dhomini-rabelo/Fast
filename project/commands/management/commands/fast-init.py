@@ -14,7 +14,7 @@ class Command(BasicCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--del', '-d', action='store_true')
-        parser.add_argument('--docker', '-d', action='store_true')
+        parser.add_argument('--docker', '-c', action='store_true')
 
     def handle(self, *args, **options):
         actions = [
@@ -33,13 +33,13 @@ class Command(BasicCommand):
             actions.insert(1, 'deleting default coments')
             delete_comments_by_folder(str(settings.BASE_DIR), settings.PROJECT_NAME)
 
+        project = DjangoProject(str(settings.BASE_DIR), settings.PROJECT_NAME)
+
         if options['docker']:
             actions.insert(2, 'Add Dockerfile and docker-compose')
-            current_path = Path.cwd()
-            docker_files_path = Path(current_path.parent.parent / 'copies/docker')
+            docker_files_path = Path(settings.BASE_DIR / 'commands/copies/docker')
             project.move_to_origin(docker_files_path)
 
-        project = DjangoProject(str(settings.BASE_DIR), settings.PROJECT_NAME)
         project.insert_important_comments()
         project.adapt_urls_py()
         project.add_env_file()
