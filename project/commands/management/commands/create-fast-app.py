@@ -29,7 +29,10 @@ class Command(BasicCommand):
         app.config_app()
         app.register_app()
         display_tree(str(new_app_path))
-        self.show_actions(['create app', 'register app in settings.INSTALLED_APPS'])
+        self.show_actions([
+            'create app - https://docs.djangoproject.com/en/4.0/ref/django-admin/#startapp', 
+            'register app in settings.INSTALLED_APPS - https://docs.djangoproject.com/en/4.0/ref/settings/#std:setting-INSTALLED_APPS',
+        ])
 
     
     def create_app_folders(self, app_path: Path):

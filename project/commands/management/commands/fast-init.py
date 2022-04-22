@@ -20,11 +20,11 @@ class Command(BasicCommand):
         actions = [
             'creating folders for project',
             'inserting important comments for Fast',
-            'changing  settings',
+            'changing  settings: - https://docs.djangoproject.com/en/4.0/ref/settings/',
             '   TEMPLATES["DIRS"], LANGUAGE_CODE, TIME_ZONE, STATICFILES_DIRS, STATIC_ROOT, MEDIA_ROOT',
             '   MEDIA_URL, ACCOUNT_SESSION_REMEMBER',
             'adapting archive urls.py',
-            'adding env file',
+            'adding env file - https://github.com/henriquebastos/python-decouple',
         ]
         
         self.create_project_folders(settings.BASE_DIR, options)
@@ -36,7 +36,7 @@ class Command(BasicCommand):
         project = DjangoProject(str(settings.BASE_DIR), settings.PROJECT_NAME)
 
         if options['docker']:
-            actions.insert(2, 'Add Dockerfile and docker-compose')
+            actions.insert(2, 'Add Dockerfile and docker-compose - https://docs.docker.com/samples/django/')
             docker_files_path = Path(settings.BASE_DIR / 'commands/copies/docker')
             project.move_to_origin(docker_files_path)
 
