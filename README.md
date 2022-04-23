@@ -271,8 +271,9 @@ python manage.py runserver
 <ul>
 
 <li>
-<h3>fast-init [--del, -d]</h3>
+<h3>fast-init [--del, -d] [--compose, -c]</h3>
 <p>--del, -d  -> For delete default commentaries</p>
+<p>--compose, -c  -> For add Dockerfile and docker-compose to project</p>
 <p>Command for create project structure and configure project</p>
 </li><br>
 
@@ -303,6 +304,11 @@ python manage.py runserver
 
 <li>
 <h3>minificate-js [path]</h3>
+</li><br>
+
+<li>
+<h3>compact-html [path]</h3>
+<p>Compact includes and block of Django Templates in one html file</p>
 </li><br>
 
 

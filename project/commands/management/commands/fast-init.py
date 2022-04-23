@@ -14,7 +14,7 @@ class Command(BasicCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('--del', '-d', action='store_true')
-        parser.add_argument('--docker', '-c', action='store_true')
+        parser.add_argument('--compose', '-c', action='store_true')
 
     def handle(self, *args, **options):
         actions = [
@@ -35,7 +35,7 @@ class Command(BasicCommand):
 
         project = DjangoProject(str(settings.BASE_DIR), settings.PROJECT_NAME)
 
-        if options['docker']:
+        if options['compose']:
             actions.insert(2, 'Add Dockerfile and docker-compose - https://docs.docker.com/samples/django/')
             docker_files_path = Path(settings.BASE_DIR / 'commands/copies/docker')
             project.move_to_origin(docker_files_path)
