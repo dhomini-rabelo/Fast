@@ -39,6 +39,7 @@ class Command(BasicCommand):
         folders = [
             'app',
             'app/migrations',
+            'app/tests',
             'actions',
             'actions/functions',
             'actions/objects',
@@ -55,6 +56,8 @@ class Command(BasicCommand):
             'app/__init__.py',
             'app/admin.py',
             'app/models.py',
+            'app/tests/models.py',
+            'app/tests/views.py',
             'app/migrations/__init__.py',
         ])
 
