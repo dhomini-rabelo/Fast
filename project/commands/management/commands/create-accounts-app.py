@@ -40,6 +40,7 @@ class Command(BasicCommand):
             'app/migrations',
             'actions',
             'actions/functions',
+            'actions/tests',
             'actions/objects',
             'actions/tasks',
         ]
@@ -56,6 +57,8 @@ class Command(BasicCommand):
             'app/admin.py',
             'app/models.py',
             'app/forms.py',
+            'app/tests/models.py',
+            'app/tests/views.py',
             'app/migrations/__init__.py',
         ])
 
