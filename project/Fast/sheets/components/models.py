@@ -3,7 +3,7 @@ from abc import ABC
 class AppModels(ABC):
 
     def import_for_model(self):
-        new_import = 'from django.db.models import (Model, CharField, DateTimeField, TextField, EmailField, ForeignKey, PositiveIntegerField, ImageField, RESTRICT, DecimalField, DateField, BooleanField)'
+        new_import = 'from django.db.models import (Model, CharField, DateTimeField, TextField, EmailField, ForeignKey, PositiveIntegerField, ImageField, RESTRICT, DecimalField, DateField, BooleanField, SET_NULL, CASCADE)'
         self.models.add_in_start(new_import)
     
     def create_abstract_user_model(self):

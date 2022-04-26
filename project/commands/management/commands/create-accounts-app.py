@@ -38,11 +38,10 @@ class Command(BasicCommand):
         folders = [
             'app',
             'app/migrations',
+            'app/tests',
             'actions',
             'actions/functions',
-            'actions/tests',
             'actions/objects',
-            'actions/tasks',
         ]
         for folder in folders:
             new_path = Path(app_path, folder)
@@ -51,6 +50,8 @@ class Command(BasicCommand):
     def create_app_archives(self, app_path: Path):
         create_archives(app_path, [
             '__init__.py',
+            'actions/functions/__init__.py',
+            'actions/objects/__init__.py',
             'urls.py',
             'views.py',
             'app/__init__.py',
@@ -60,6 +61,7 @@ class Command(BasicCommand):
             'app/tests/models.py',
             'app/tests/views.py',
             'app/migrations/__init__.py',
+            'app/tests/__init__.py',
         ])
 
 
