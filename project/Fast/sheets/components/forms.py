@@ -1,10 +1,10 @@
 from abc import ABC
-from ..editor import Editor
+from Fast.sheets.editor import Editor
 
 class AppForms(ABC):
 
     def create_abstract_user_forms(self):
-        form = Editor(self.path, r'app\forms.py')
+        form = Editor(self.path, r'app/forms.py')
         imports = [
             'from django.contrib.auth import forms',
             'from .models import User',
