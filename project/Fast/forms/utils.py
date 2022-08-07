@@ -1,9 +1,10 @@
+from typing import Callable
 from .checks import check_null
 from .support import adapt_form_errors, adapt_list_of_post_form, convert_validation
 from .functions_dict import other_errors_functions
 from ..utils.main import get_decimal_str, gets
 from django.db.models import Model
-
+from .adapt_data import adapt_data_functions
 
 
 def get_post_form_errors(form: list, optional_fields: list[tuple]=[], choices: list[tuple]=[]) -> dict[str, str]:
@@ -69,13 +70,9 @@ def adapt_post_form(post_form: dict, fields_name: list, filters={}):
         if field_name not in fields_name: continue
         if field_name in filters.keys():
             try:
-                if filters[field_name] == 'int':
-                    new_data[field_name] = int(post_form.get(field_name))
-                elif filters[field_name] == 'str':
-                    new_data[field_name] = str(post_form.get(field_name))
-                elif filters[field_name] == 'decimal_2':
-                    new_data[field_name] = get_decimal_str(post_form.get(field_name))
-            except:
+                adapt_data_function: Callable = adapt_data_functions[filters[field_name]]
+                new_data[field_name] = adapt_data_function(post_form.get(field_name))
+            except ValueError:
                 new_data[field_name] = post_form.get(field_name, '')    
         else:
             new_data[field_name] = post_form.get(field_name, '')
