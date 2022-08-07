@@ -8,6 +8,7 @@ import io
 
 class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppForms):
     def __init__(self, base_path: str, app: str, app_name: str, project_name: str):
+        self.project_name = project_name
         self.base_path = self.adapt_path(base_path)
         self.app = self.adapt_path(app)
         self.app_name = app_name
@@ -15,11 +16,21 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
         assert_folder_existence(self.path)
         self.response = lambda message: response(message, entity=app)
         self.spaces = lambda text_list, spaces: list(map(lambda text: f'{sp(spaces)}{text}', text_list))
-        self.init = Editor(self.path, 'app/__init__.py')
-        self.admin = Editor(self.path, r'app/admin.py')
-        self.models = Editor(self.path, 'app/models.py')
-        self.views = Editor(self.path, 'views.py')
-        self.settings = Editor(self.base_path, f'{project_name}/settings.py')
+
+    @property
+    def init(self) -> Editor: return Editor(self.path, 'app/__init__.py')
+
+    @property
+    def admin(self) -> Editor: return Editor(self.path, 'app/admin.py')
+
+    @property
+    def models(self) -> Editor: return Editor(self.path, 'app/models.py')
+
+    @property
+    def views(self) -> Editor: return Editor(self.path, 'app/views.py')
+ 
+    @property
+    def settings(self) -> Editor: return Editor(self.base_path, f'{self.project_name}/settings.py')
     
     def config_app(self):
         settings = [
