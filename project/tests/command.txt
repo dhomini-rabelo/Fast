@@ -1,0 +1,11 @@
+# Fazer todos os testes do sistema
+python3 manage.py test  --pattern="*_t.py"
+
+# Fazer testes de models
+python3 manage.py test  --pattern="*model_t.py"
+
+# Fazer testes de views
+python3 manage.py test  --pattern="*view_t.py"
+
+# Fazer testes de um app, pasta ou arquivo // doc
+python3 manage.py test  --pattern="*_t.py" apps.core
