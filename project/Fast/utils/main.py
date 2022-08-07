@@ -4,6 +4,7 @@ from .functions_dict import filters_functions
 from datetime import datetime
 from collections.abc import Mapping
 from typing import Any
+import re
 
 def simplification(obj_name: str):
     simplification = {'decimal.Decimal': 'decimal', 'datetime.date': 'date'}
@@ -45,6 +46,18 @@ def if_none(obj: Any, new_value: Any):
     return obj
 
 
+def get_decimal_str(field):
+    field = str(field)
+    pattern_format_1 = re.compile(r'^\d+$')
+    pattern_format_2 = re.compile(r'^\d+.\d{1}$')
+    m1 = re.fullmatch(pattern_format_1, field) # match
+    m2 = re.fullmatch(pattern_format_2, field)
+    if m1 is not None:
+        return f'{field}.00'
+    elif m2 is not None:
+        return f'{field}0'
+    else:
+        return field
 
 
 def get_age(date: str):

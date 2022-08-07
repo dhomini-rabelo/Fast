@@ -1,7 +1,7 @@
 from .checks import check_null
 from .support import adapt_form_errors, adapt_list_of_post_form, convert_validation
 from .functions_dict import other_errors_functions
-from ..utils.main import gets
+from ..utils.main import get_decimal_str, gets
 from django.db.models import Model
 
 
@@ -63,15 +63,30 @@ def get_post_form_errors(form: list, optional_fields: list[tuple]=[], choices: l
     return form_errors if form_errors != {} else None
 
 
+def adapt_post_form(post_form: dict, fields_name: list, filters={}):
+    new_data = {}
+    for field_name in post_form.keys():
+        if field_name not in fields_name: continue
+        if field_name in filters.keys():
+            try:
+                if filters[field_name] == 'int':
+                    new_data[field_name] = int(post_form.get(field_name))
+                elif filters[field_name] == 'str':
+                    new_data[field_name] = str(post_form.get(field_name))
+                elif filters[field_name] == 'decimal_2':
+                    new_data[field_name] = get_decimal_str(post_form.get(field_name))
+            except:
+                new_data[field_name] = post_form.get(field_name, '')    
+        else:
+            new_data[field_name] = post_form.get(field_name, '')
+    return new_data
 
-def validate_form_base(post_form, fields, default_type='str', default_validation=[('max_length', 256)]):
-    def get_field(field):
-        if isinstance(field, str):
-            return field
-        elif isinstance(field, list):
-            return field[0]
-    fields_name = list(map(get_field, fields)) 
-    form_fields = gets(post_form, *fields_name)
+
+
+def validate_form_base(post_form, fields, default_type='str', default_validation=[('max_length', 256)], filters={}, validation={}):
+    get_field = lambda field_config: field_config[0]
+    fields_name = list(map(get_field, fields))
+    form_fields = gets(adapt_post_form(post_form, fields_name, filters), *fields_name)
 
     form_fields_adapted_format = []
     for index, field_format in enumerate(fields):
@@ -92,7 +107,7 @@ def validate_form_base(post_form, fields, default_type='str', default_validation
 
         form_fields_adapted_format.append(field_adapted)
 
-    errors = get_post_form_errors(form_fields_adapted_format)
+    errors = get_post_form_errors(form_fields_adapted_format, **validation)
 
     fields_value = {}
 
