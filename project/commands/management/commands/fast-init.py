@@ -15,6 +15,7 @@ class Command(BasicCommand):
     def add_arguments(self, parser):
         parser.add_argument('--del', '-d', action='store_true')
         parser.add_argument('--compose', '-c', action='store_true')
+        parser.add_argument('--default_apps_folder', type=str, default='apps')
 
     def handle(self, *args, **options):
         actions = [
@@ -27,7 +28,9 @@ class Command(BasicCommand):
             'adding env file - https://github.com/henriquebastos/python-decouple',
         ]
         
-        self.create_project_folders(settings.BASE_DIR, options)
+        default_apps_folder = options.get('default_apps_folder') or 'apps'
+
+        self.create_project_folders(settings.BASE_DIR, default_apps_folder)
         
         if options['del']:
             actions.insert(1, 'deleting default coments')
@@ -43,14 +46,15 @@ class Command(BasicCommand):
         project.insert_important_comments()
         project.adapt_urls_py()
         project.add_env_file()
-        project.adapt_settings()
+        project.adapt_settings(default_apps_folder)
 
         display_tree(str(settings.BASE_DIR))
         self.show_actions(actions)
 
-    def create_project_folders(self, project_path: Path, options):
+    def create_project_folders(self, project_path: Path, apps_folder: str):
+
         folders = [
-            'backend',
+            apps_folder,
             'frontend',
             'frontend/static',
             'frontend/media',
@@ -70,7 +74,7 @@ class Command(BasicCommand):
             'frontend/templates/bases',
             'frontend/templates/pages',
             'test',
-            'test/backend',
+            f'test/{apps_folder}',
             'test/frontend',
             'test/e2e',
             'test/dependencies',

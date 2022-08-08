@@ -15,14 +15,16 @@ class Command(BasicCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('app_name', type=str)
+        parser.add_argument('app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
     
     def handle(self, *args, **options):
         # create folder
-        new_app_path = Path(settings.BASE_DIR, 'backend', options['app_name'])
+        app_folder = self.get_app_folder(options)
+        new_app_path = Path(settings.BASE_DIR, app_folder, options['app_name'])
         new_app_path.mkdir()
         self.create_app_folders(new_app_path)
         self.create_app_archives(new_app_path)
-        app = DjangoApp(str(settings.BASE_DIR), f'backend/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
+        app = DjangoApp(str(settings.BASE_DIR), f'{app_folder}/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
         app.create_url_archive()
         app.start_files()
         app.import_for_model()
@@ -58,8 +60,8 @@ class Command(BasicCommand):
             'app/__init__.py',
             'app/admin.py',
             'app/models.py',
-            'app/tests/models.py',
-            'app/tests/views.py',
+            'app/tests/models_t.py',
+            'app/tests/views_t.py',
             'app/migrations/__init__.py',
             'app/tests/__init__.py',
         ])

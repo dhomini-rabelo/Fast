@@ -60,7 +60,7 @@ class DjangoProject(Base):
             "\nSTATICFILES_DIRS = [Path(BASE_DIR, 'frontend/static')]", 
             "STATIC_ROOT = Path('static')","MEDIA_ROOT = Path(BASE_DIR,'frontend/media')", 
             "MEDIA_URL = '/media/'", "ACCOUNT_SESSION_REMEMBER = True",
-            "STATIC_PAGE_CACHE_TIMEOUT = 60*60*2"
+            "STATIC_PAGE_CACHE_TIMEOUT = 60*60*2",
         ]
         inserts = [
             ("# My settings", settings),
@@ -68,7 +68,7 @@ class DjangoProject(Base):
         ]
         return inserts
     
-    def adapt_settings(self):
+    def adapt_settings(self, default_apps_folder: str):
         replaces = self._settings_replaces()
         inserts = self._settings_inserts()
         
@@ -77,5 +77,7 @@ class DjangoProject(Base):
 
         for current, new in inserts:
             self.settings.insert_code(current, new)
+        
 
+        self.settings.add_in_end(f"DEFAULT_APPS_FOLDER = '{default_apps_folder}'")
         self.settings.add_in_start(['from decouple import config'])
