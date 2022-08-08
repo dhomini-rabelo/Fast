@@ -32,12 +32,12 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
     @property
     def settings(self) -> Editor: return Editor(self.base_path, f'{self.project_name}/settings.py')
     
-    def config_app(self):
+    def config_app(self, app_folder: str):
         settings = [
             "from django.apps import AppConfig", f"\n\nclass {self.app_name.title()}Config(AppConfig):",
             *self.spaces([
                 "default_auto_field = 'django.db.models.BigAutoField'", 
-                f"name = 'backend.{self.app_name}.app'",
+                f"name = '{app_folder}.{self.app_name}.app'",
                 f"verbose_name = '{self.app_name}'",
                 f"label = '{self.app_name}'",
             ], 4),

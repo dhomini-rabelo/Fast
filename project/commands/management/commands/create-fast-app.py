@@ -28,8 +28,8 @@ class Command(BasicCommand):
         app.create_url_archive()
         app.start_files()
         app.import_for_model()
-        app.config_app()
-        app.register_app()
+        app.config_app(app_folder)
+        app.register_app(app_folder)
         display_tree(str(new_app_path))
         self.show_actions([
             'create app - https://docs.djangoproject.com/en/4.0/ref/django-admin/#startapp', 

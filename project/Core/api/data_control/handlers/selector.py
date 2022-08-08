@@ -4,7 +4,6 @@ from django.db.models.query import QuerySet
 from rest_framework.serializers import ModelSerializer, ListSerializer
 from rest_framework.utils.serializer_helpers import ReturnDict, ReturnList
 from Core.views.data_control.exceptions import ModelNotFound
-from backend.products.actions.objects import serializers
 
 
 class SelectorForQueryset:
