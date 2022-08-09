@@ -45,8 +45,6 @@ class Command(BasicCommand):
             'app/migrations',
             'app/tests',
             'actions',
-            'actions/functions',
-            'actions/objects',
             *more_folders,
         ]
         for folder in folders:
@@ -57,8 +55,7 @@ class Command(BasicCommand):
         more_folders = ['app/models/__init__.py', 'app/views/__init__.py'] if options['use_folders'] else ['app/models.py', 'views.py',]
         create_archives(app_path, [
             '__init__.py',
-            'actions/functions/__init__.py',
-            'actions/objects/__init__.py',
+            'actions/__init__.py',
             'urls.py',
             'app/__init__.py',
             'app/admin.py',
