@@ -16,7 +16,7 @@ class Command(BasicCommand):
     def add_arguments(self, parser):
         parser.add_argument('app_name', type=str)
         parser.add_argument('--use_folders', '-f', action='store_true')
-        parser.add_argument('app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
+        parser.add_argument('--app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
     
     def handle(self, *args, **options):
         # create folder
