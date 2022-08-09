@@ -16,6 +16,8 @@ class Command(BasicCommand):
     def add_arguments(self, parser):
         parser.add_argument('app_name', type=str)
         parser.add_argument('--use_folders', '-f', action='store_true')
+        parser.add_argument('--api_app', '-a', action='store_true')
+        parser.add_argument('--api_and_views_app', '-av', action='store_true')
         parser.add_argument('--app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
     
     def handle(self, *args, **options):
@@ -37,9 +39,8 @@ class Command(BasicCommand):
             'register app in settings.INSTALLED_APPS - https://docs.djangoproject.com/en/4.0/ref/settings/#std:setting-INSTALLED_APPS',
         ])
 
-    
     def create_app_folders(self, app_path: Path, options: dict):
-        more_folders = ['app/models', 'app/views'] if options['use_folders'] else []
+        more_folders = self.get_more_folders(options)
         folders = [
             'app',
             'app/migrations',
@@ -52,7 +53,7 @@ class Command(BasicCommand):
             new_path.mkdir()
 
     def create_app_archives(self, app_path: Path, options: dict):
-        more_folders = ['app/models/__init__.py', 'app/views/__init__.py'] if options['use_folders'] else ['app/models.py', 'views.py',]
+        more_files = self.get_more_files(options)
         create_archives(app_path, [
             '__init__.py',
             'actions/__init__.py',
@@ -63,10 +64,44 @@ class Command(BasicCommand):
             'app/tests/views_t.py',
             'app/migrations/__init__.py',
             'app/tests/__init__.py',
-            *more_folders,
+            *more_files,
         ])
 
+    def get_more_folders(self, options: dict) -> list[str]:
+        more_folders = []
+        if options['use_folders']:
+            new_folders = ['app/models']
+            if options['api_and_views_app']:
+                new_folders.extend(['api', 'views'])
+            elif options['api_app']:
+                new_folders.append('api')
+            else:
+                new_folders.append('views')
+        return more_folders
 
-        
+    def get_more_files(self, options: dict) -> list[str]:
+        more_files = []
+
+        if options['use_folders']:
+
+            new_folders = ['app/models/__init__.py']
+            if options['api_and_views_app']:
+                new_folders.extend(['api/__init__.py', 'views/__init__.py'])
+            elif options['api_app']:
+                new_folders.append('api/__init__.py')
+            else:
+                new_folders.append('views/__init__.py')
+
+        else:
+
+            new_folders = ['app/models.py']
+            if options['api_and_views_app']:
+                new_folders.extend(['api.py', 'views.py'])
+            elif options['api_app']:
+                new_folders.append('api.py')
+            else:
+                new_folders.append('views.py')
+
+        return more_files
 
         
