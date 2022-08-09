@@ -73,11 +73,6 @@ class Command(BasicCommand):
             'frontend/templates/min',
             'frontend/templates/bases',
             'frontend/templates/pages',
-            'test',
-            f'test/{apps_folder}',
-            'test/frontend',
-            'test/e2e',
-            'test/dependencies',
         ]
 
         for folder in folders:

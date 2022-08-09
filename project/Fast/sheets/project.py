@@ -79,5 +79,5 @@ class DjangoProject(Base):
             self.settings.insert_code(current, new)
         
 
-        self.settings.add_in_end(f"DEFAULT_APPS_FOLDER = '{default_apps_folder}'")
         self.settings.add_in_start(['from decouple import config'])
+        self.settings.add_in_end(f"DEFAULT_APPS_FOLDER = '{default_apps_folder}'")
