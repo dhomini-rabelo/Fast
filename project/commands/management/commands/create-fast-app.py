@@ -15,6 +15,7 @@ class Command(BasicCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('app_name', type=str)
+        parser.add_argument('--use_folders', '-f', action='store_true')
         parser.add_argument('app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
     
     def handle(self, *args, **options):
@@ -22,8 +23,8 @@ class Command(BasicCommand):
         app_folder = self.get_app_folder(options)
         new_app_path = Path(settings.BASE_DIR, app_folder, options['app_name'])
         new_app_path.mkdir()
-        self.create_app_folders(new_app_path)
-        self.create_app_archives(new_app_path)
+        self.create_app_folders(new_app_path, options)
+        self.create_app_archives(new_app_path, options)
         app = DjangoApp(str(settings.BASE_DIR), f'{app_folder}/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
         app.create_url_archive()
         app.start_files()
@@ -37,7 +38,8 @@ class Command(BasicCommand):
         ])
 
     
-    def create_app_folders(self, app_path: Path):
+    def create_app_folders(self, app_path: Path, options: dict):
+        more_folders = ['app/models', 'app/views'] if options['use_folders'] else []
         folders = [
             'app',
             'app/migrations',
@@ -45,25 +47,26 @@ class Command(BasicCommand):
             'actions',
             'actions/functions',
             'actions/objects',
+            *more_folders,
         ]
         for folder in folders:
             new_path = Path(app_path, folder)
             new_path.mkdir()
 
-    def create_app_archives(self, app_path: Path):
+    def create_app_archives(self, app_path: Path, options: dict):
+        more_folders = ['app/models/__init__.py', 'app/views/__init__.py'] if options['use_folders'] else ['app/models.py', 'views.py',]
         create_archives(app_path, [
             '__init__.py',
             'actions/functions/__init__.py',
             'actions/objects/__init__.py',
             'urls.py',
-            'views.py',
             'app/__init__.py',
             'app/admin.py',
-            'app/models.py',
             'app/tests/models_t.py',
             'app/tests/views_t.py',
             'app/migrations/__init__.py',
             'app/tests/__init__.py',
+            *more_folders,
         ])
 
 
