@@ -24,10 +24,18 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
     def admin(self) -> Editor: return Editor(self.path, 'app/admin.py')
 
     @property
-    def models(self) -> Editor: return Editor(self.path, 'app/models.py')
+    def models(self) -> Editor: 
+        try:
+            return Editor(self.path, 'app/models.py')
+        except PathIsAFolderError:
+            return Editor(self.path, 'app/models/__init__.py')
 
     @property
-    def views(self) -> Editor: return Editor(self.path, 'app/views.py')
+    def views(self) -> Editor:
+        try:
+            return Editor(self.path, 'views.py')
+        except PathIsAFolderError:
+            return Editor(self.path, 'views/__init__.py')
  
     @property
     def settings(self) -> Editor: return Editor(self.base_path, f'{self.project_name}/settings.py')
