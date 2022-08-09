@@ -70,13 +70,13 @@ class Command(BasicCommand):
     def get_more_folders(self, options: dict) -> list[str]:
         more_folders = []
         if options['use_folders']:
-            new_folders = ['app/models']
+            more_folders = ['app/models']
             if options['api_and_views_app']:
-                new_folders.extend(['api', 'views'])
+                more_folders.extend(['api', 'views'])
             elif options['api_app']:
-                new_folders.append('api')
+                more_folders.append('api')
             else:
-                new_folders.append('views')
+                more_folders.append('views')
         return more_folders
 
     def get_more_files(self, options: dict) -> list[str]:
@@ -84,24 +84,23 @@ class Command(BasicCommand):
 
         if options['use_folders']:
 
-            new_folders = ['app/models/__init__.py']
+            more_files = ['app/models/__init__.py']
             if options['api_and_views_app']:
-                new_folders.extend(['api/__init__.py', 'views/__init__.py'])
+                more_files.extend(['api/__init__.py', 'views/__init__.py'])
             elif options['api_app']:
-                new_folders.append('api/__init__.py')
+                more_files.append('api/__init__.py')
             else:
-                new_folders.append('views/__init__.py')
+                more_files.append('views/__init__.py')
 
         else:
 
-            new_folders = ['app/models.py']
+            more_files = ['app/models.py']
             if options['api_and_views_app']:
-                new_folders.extend(['api.py', 'views.py'])
+                more_files.extend(['api.py', 'views.py'])
             elif options['api_app']:
-                new_folders.append('api.py')
+                more_files.append('api.py')
             else:
-                new_folders.append('views.py')
+                more_files.append('views.py')
 
         return more_files
-
         
