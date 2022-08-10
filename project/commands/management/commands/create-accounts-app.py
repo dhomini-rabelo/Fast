@@ -40,7 +40,7 @@ class Command(BasicCommand):
 
     
     def create_app_folders(self, app_path: Path, options: dict):
-        more_folders = ['app/models', 'app/views'] if options['use_folders'] else []
+        more_folders = ['app/models', 'views'] if options['use_folders'] else []
         folders = [
             'app',
             'app/migrations',
@@ -53,7 +53,7 @@ class Command(BasicCommand):
             new_path.mkdir()
 
     def create_app_archives(self, app_path: Path, options: dict):
-        more_folders = ['app/models/__init__.py', 'app/views/__init__.py'] if options['use_folders'] else ['app/models.py', 'views.py',]
+        more_folders = ['app/models/__init__.py', 'views/__init__.py'] if options['use_folders'] else ['app/models.py', 'views.py',]
         create_archives(app_path, [
             '__init__.py',
             'actions/__init__.py',
