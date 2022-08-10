@@ -7,8 +7,9 @@ import io
 
 
 class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppForms):
-    def __init__(self, base_path: str, app: str, app_name: str, project_name: str):
+    def __init__(self, base_path: str, app: str, app_name: str, project_name: str, api_app=False):
         self.project_name = project_name
+        self.api_app = api_app
         self.base_path = self.adapt_path(base_path)
         self.app = self.adapt_path(app)
         self.app_name = app_name
@@ -27,15 +28,21 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
     def models(self) -> Editor: 
         try:
             return Editor(self.path, 'app/models.py')
-        except PathIsAFolderError:
+        except (PathIsAFolderError, FileNotFoundError):
             return Editor(self.path, 'app/models/__init__.py')
 
     @property
     def views(self) -> Editor:
-        try:
-            return Editor(self.path, 'views.py')
-        except PathIsAFolderError:
-            return Editor(self.path, 'views/__init__.py')
+        if not self.api_app:
+            try:
+                return Editor(self.path, 'views.py')
+            except (PathIsAFolderError, FileNotFoundError):
+                return Editor(self.path, 'views/__init__.py')
+        else:
+            try:
+                return Editor(self.path, 'api.py')
+            except (PathIsAFolderError, FileNotFoundError):
+                return Editor(self.path, 'api/__init__.py')
  
     @property
     def settings(self) -> Editor: return Editor(self.base_path, f'{self.project_name}/settings.py')

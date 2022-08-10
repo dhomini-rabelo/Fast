@@ -18,7 +18,7 @@ class Command(BasicCommand):
         parser.add_argument('--use_folders', '-f', action='store_true')
         parser.add_argument('--api_app', '-a', action='store_true')
         parser.add_argument('--api_and_views_app', '-av', action='store_true')
-        parser.add_argument('--app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
+        parser.add_argument('--app_folder', '-af', type=str, default=settings.DEFAULT_APPS_FOLDER)
     
     def handle(self, *args, **options):
         # create folder
@@ -27,7 +27,7 @@ class Command(BasicCommand):
         new_app_path.mkdir()
         self.create_app_folders(new_app_path, options)
         self.create_app_archives(new_app_path, options)
-        app = DjangoApp(str(settings.BASE_DIR), f'{app_folder}/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME)
+        app = DjangoApp(str(settings.BASE_DIR), f'{app_folder}/{options["app_name"]}', options['app_name'], settings.PROJECT_NAME, options['api_app'])
         app.create_url_archive()
         app.start_files()
         app.import_for_model()
