@@ -14,7 +14,7 @@ class BaseForTestModels(TestCase):
     # main attributes: is_base_class, simple_queryset
     required_fields: list[str] = [] # name of required fields
     unique_fields: list[str] = [] # name of unique fields
-    default_values: dict[str, Any] = {} # key -> attr name with default value, value -> default_value
+    default_values: dict[str, Any] = {} # key -> attr name, value -> default_value
     data_for_default_values_test: dict[str, Any] = {} # data for create obj without fields default_value
     simple_queryset: QuerySet # without .objects.all()
     is_base_class = True # change to false in children classes

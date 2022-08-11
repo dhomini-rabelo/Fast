@@ -2,9 +2,7 @@ from django.test import TestCase, Client
 from django.test.utils import override_settings
 from django.urls import reverse
 from datetime import date
-from apps.core.models import Person
 from django.contrib.auth import get_user_model
-from django.core import mail
 
 
 class BaseForViews(TestCase):

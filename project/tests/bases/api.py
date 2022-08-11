@@ -4,7 +4,7 @@ from tests.bases.views import BaseForViews
 
 class BaseForApi(BaseForViews):
     main_method = 'POST'
-    fk_fields: dict[str, (str('int') | str("uuid")) ] = {}
+    fk_fields: dict[str, (str("int") | str("uuid")) ] = {}
     required_fields: list[str] = []
     time_fields: list[str] = []
     choice_fields: list[str] = []
