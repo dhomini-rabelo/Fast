@@ -22,7 +22,11 @@ class DjangoApp(Base, AppAdmin, AppModels, AppSettings, AppViews, AppTests, AppF
     def init(self) -> Editor: return Editor(self.path, 'app/__init__.py')
 
     @property
-    def admin(self) -> Editor: return Editor(self.path, 'app/admin.py')
+    def admin(self) -> Editor: 
+        try:
+            return Editor(self.path, 'app/admin.py')
+        except (PathIsAFolderError, FileNotFoundError):
+            return Editor(self.path, 'app/admin/__init__.py')
 
     @property
     def models(self) -> Editor: 
