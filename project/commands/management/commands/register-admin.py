@@ -10,7 +10,7 @@ class Command(BasicCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('model_address', type=str)
-        parser.add_argument('app_folder', type=str, default=settings.DEFAULT_APPS_FOLDER)
+        parser.add_argument('--app_folder', '-af', type=str, default=settings.DEFAULT_APPS_FOLDER)
 
     def handle(self, *args, **options):
         app_name, model_name = options['model_address'].split('.')
