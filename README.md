@@ -278,19 +278,26 @@ python manage.py runserver
 </li><br>
 
 <li>
-<h3>create-fast-app [app_name]</h3>
+<h3>create-fast-app [app_name] [--use_folders, -f] [--api_app, -a] [--api_and_views_app, -av] [--app_folder, -af] [app_folder_name]</h3>
 <p>Command for create fast app in backend folder</p>
+<p>--use_folders, -f  -> For use folders in app</p>
+<p>--api_app, -a  -> if app will contains only API</p>
+<p>--api_and_views_app, -av  -> if app will contains API and views</p>
+<p>--app_folder, -af  -> folder for insert app</p>
 </li><br>
 
 <li>
-<h3>create-accounts-app</h3>
+<h3>create-accounts-app [--use_folders, -f] [--app_folder, -af] [app_folder_name]</h3>
 <p>Command for create fast app with custom user</p>
+<p>--use_folders, -f  -> For use folders in app</p>
+<p>--app_folder, -af  -> folder for insert app</p>
 </li><br>
 
 
 <li>
-<h3>register admin [model_address]</h3>
+<h3>register admin [model_address] [--app_folder, -af] [app_folder_name]</h3>
 <p>model_address -> app_name.model_name</p>
+<p>--app_folder, -af  -> folder that contains the app</p>
 <p>Command for create base for register admin model</p>
 </li><br>
 
